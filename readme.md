@@ -152,19 +152,20 @@ private static final Logger logger = LoggerFactory.getLogger(Slf4jLog4j2DemoAppl
     }
 ```
 
-* log4j2 config , refer to log4j2.xml
-
-* or refer to log4j2.properties
-
 * setup log configure path at application.yml / application.properties
 ```yaml
 logging:
   config: classpath:log4j2.xml
 ```
 
-* notice: if you are not using embedded tomcat or jetty container, modify log file location:
-```xml
+* to modify log4j2 specific configuration properties, refer to log4j2.xml
 
+* notice: 
+if you are not using embedded tomcat or jetty container, modify log file location:
+```xml
+...
+<Property name="filePath">${sys:catalina.home}/logs/slf4j-log4j2-demo/</Property>
+...
 ```
 
 * look up log from generated log file, such as logs/all.log、info.log、error.log in root directory

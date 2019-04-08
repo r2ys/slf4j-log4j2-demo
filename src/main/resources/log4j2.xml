@@ -8,9 +8,9 @@
 
     <Properties>
         <!-- 1.jar启动 使用自带容器启动-->
-        <!--<Property name="filePath">./logs</Property>-->
+        <Property name="filePath">./logs</Property>
         <!--！！！tomcat外部容器启动，请自行修改-->
-        <Property name="filePath">${sys:catalina.home}/logs/slf4j-log4j2-demo/</Property>
+        <!--<Property name="filePath">${sys:catalina.home}/logs/slf4j-log4j2-demo/</Property>-->
         <Property name="commonPattern"> [%d{yyyy.MM.dd HH:mm:ss,sss z}] [%-5p] [%t] [%l] :%m%n </Property>
     </Properties>
 
