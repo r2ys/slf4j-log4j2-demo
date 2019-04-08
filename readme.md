@@ -14,7 +14,25 @@
 
 #### Backwards compatibility
 
-- For SpringBoot 1.5.19.RELEASE
+- For SpringBoot 1.5.19.RELEASE, import manually:
+
+```xml
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-api</artifactId>
+    <version>2.11.2</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-core</artifactId>
+    <version>2.11.2</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-jcl</artifactId>
+    <version>2.11.2</version>
+</dependency>
+```
 
 ## Getting Started
 
@@ -45,33 +63,12 @@ All source code is licensed under the [MIT License](https://raw.github.com/SDWeb
 
 * run or debug : Slf4jLog4j2DemoApplication
 
-* import dependency manually
+* import dependency manually, dependencies about slf4j and log4j2 has been integrated with an overall log4j-slf4j-impl
+
 ```xml
-<!--slf4j-->
-<dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-api</artifactId>
-    <version>1.7.26</version>
-</dependency>
-
-<!--log4j2-->
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-log4j2</artifactId>
-    <version>2.1.3.RELEASE</version>
-</dependency>
-```
-
-if not using spring boot starter, replace spring-boot-starter-log4j2 with log4j-api and log4j-core
-```java
 <dependency>
     <groupId>org.apache.logging.log4j</groupId>
-    <artifactId>log4j-core</artifactId>
-    <version>2.11.2</version>
-</dependency>
-<dependency>
-    <groupId>org.apache.logging.log4j</groupId>
-    <artifactId>log4j-api</artifactId>
+    <artifactId>log4j-slf4j-impl</artifactId>
     <version>2.11.2</version>
 </dependency>
 ```
@@ -89,15 +86,6 @@ don't forget to exclude dependency:spring-boot-starter-logging from spring-boot-
             <artifactId>spring-boot-starter-logging</artifactId>
         </exclusion>
     </exclusions>
-</dependency>
-```
-
-dependencies above has been integrated with an overall log4j-slf4j-impl
-```xml
-<dependency>
-    <groupId>org.apache.logging.log4j</groupId>
-    <artifactId>log4j-slf4j-impl</artifactId>
-    <version>2.11.2</version>
 </dependency>
 ```
 
@@ -172,3 +160,14 @@ if you are not using embedded tomcat or jetty container, modify log file locatio
 
 
 * make sure log4j2.xml below root directory or config directory when deployed. Usually we extracted this config file from jar.
+
+* AsyncLogger, todo
+
+```xml
+<!--log4j2的AsyncLogger 需要添加-->
+<dependency>
+    <groupId>com.lmax</groupId>
+    <artifactId>disruptor</artifactId>
+    <version>3.3.7</version>
+</dependency>
+```
