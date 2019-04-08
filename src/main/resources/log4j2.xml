@@ -1,26 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+
+<!--log priority level: [TRACE < DEBUG < INFO < WARN < ERROR < FATAL]-->
+<!--monitorInterval:  auto detect configuration properties within interval seconds-->
+<!--日志文件归档规则：每次RollingFile时间超过1天、大小超过size（100M：SizeBasedTriggeringPolicy），则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
 <!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出-->
-<!--monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数-->
 <Configuration status="OFF" monitorInterval="240">
+
     <Properties>
-        <Property name="filePath">./logs</Property>
-        <Property name="commonPattern"> [%d{yyyy.MM.dd HH:mm:ss,sss z}] [%p] [%t] [%l] :%m%n </Property>
+        <!-- 1.jar启动 使用自带容器启动-->
+        <!--<Property name="filePath">./logs</Property>-->
+        <!--！！！tomcat外部容器启动，请自行修改-->
+        <Property name="filePath">${sys:catalina.home}/logs/slf4j-log4j2-demo/</Property>
+        <Property name="commonPattern"> [%d{yyyy.MM.dd HH:mm:ss,sss z}] [%-5p] [%t] [%l] :%m%n </Property>
     </Properties>
-    <!--先定义所有的输出源-->
+
+    <!--输出源-->
     <Appenders>
-        <!--这个输出控制台的配置-->
-        <Console name="Console"
+        <!--控制台-->
+        <Console name="CONSOLE_LOG"
                  target="SYSTEM_OUT">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
-            <ThresholdFilter level="INFO"
+            <ThresholdFilter level="TRACE"
                              onMatch="ACCEPT"
                              onMismatch="DENY"/>
             <PatternLayout pattern="${commonPattern}" />
         </Console>
 
+        <!-- debug级别以上-->
+        <RollingFile name="DEBUGLOG"
+                     fileName="${filePath}/debug.log" filePattern="${filePath}/archive/%d{yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log.gz">
+            <Filters>
+                <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
 
-        <!-- 这个会打印出所有的info及以下级别的信息，每次时间超过1天、大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+            <PatternLayout pattern="${commonPattern}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="99999"/>
+        </RollingFile>
+
+        <!-- info级别以上-->
         <RollingFile name="INFOLOG"
                      fileName="${filePath}/info.log" filePattern="${filePath}/archive/%d{yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log.gz">
             <Filters>
@@ -34,10 +57,10 @@
                 <TimeBasedTriggeringPolicy/>
                 <SizeBasedTriggeringPolicy size="100 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="99999"></DefaultRolloverStrategy>
+            <DefaultRolloverStrategy max="99999"/>
         </RollingFile>
 
-
+        <!-- error级别以上-->
         <RollingFile name="ERRORLOG"
                      fileName="${filePath}/error.log" filePattern="${filePath}/archive/%d{yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log.gz">
             <Filters>
@@ -50,10 +73,10 @@
                 <TimeBasedTriggeringPolicy/>
                 <SizeBasedTriggeringPolicy size="100 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="99999"></DefaultRolloverStrategy>
+            <DefaultRolloverStrategy max="99999"/>
         </RollingFile>
 
-
+        <!-- 全部日志-->
         <RollingFile name="ALLLOG"
                      fileName="${filePath}/all.log" filePattern="${filePath}/archive/%d{yyyy-MM}/all-%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout pattern="${commonPattern}" />
@@ -61,12 +84,17 @@
                 <TimeBasedTriggeringPolicy/>
                 <SizeBasedTriggeringPolicy size="100 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="99999"></DefaultRolloverStrategy>
+            <DefaultRolloverStrategy max="99999"/>
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Root level="DEBUG">
-            <appender-ref ref="Console"/>
+        <!--过滤spring多余日志-->
+        <!--<logger name="org.springframework" level="INFO"/>-->
+        <!--配置具体某个包或类的日志级别-->
+        <!--<logger name="com.sunjinke.slf4jlog4j2demo" level="INFO"/>-->
+        <Root level="INFO">
+            <appender-ref ref="CONSOLE_LOG"/>
+            <appender-ref ref="DEBUGLOG"/>
             <appender-ref ref="INFOLOG" />
             <appender-ref ref="ERRORLOG" />
             <appender-ref ref="ALLLOG" />

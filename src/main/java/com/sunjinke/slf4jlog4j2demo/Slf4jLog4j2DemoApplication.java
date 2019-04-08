@@ -6,9 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @Slf4j
 @SpringBootApplication
+//public class Slf4jLog4j2DemoApplication extends SpringBootServletInitializer {
 public class Slf4jLog4j2DemoApplication {
 
     @Getter
@@ -26,7 +29,12 @@ public class Slf4jLog4j2DemoApplication {
      */
     private static final Logger logger = LoggerFactory.getLogger(Slf4jLog4j2DemoApplication.class);
 
-	public static void main(String[] args) {
+//    @Override
+//    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+//        return builder.sources(this.getClass());
+//    }
+
+    public static void main(String[] args) {
 		SpringApplication.run(Slf4jLog4j2DemoApplication.class, args);
 
 		testWithLombok();
@@ -41,9 +49,22 @@ public class Slf4jLog4j2DemoApplication {
     public static void testWithLombok() {
         ExampleEntity entity = new ExampleEntity("0", "alpha");
 
+        // 系统日志
+        System.out.println("[com.sunjinke.slf4jlog4j2demo.Slf4jLog4j2DemoApplication.testWithLombok(Slf4jLog4j2DemoApplication.java:45)]" + "sout->" + entity.toString());
+        System.err.println("[com.sunjinke.slf4jlog4j2demo.Slf4jLog4j2DemoApplication.testWithLombok(Slf4jLog4j2DemoApplication.java:46)]" + "serr->" + entity.toString());
+
         // 使用lombok->log打印日志
+
+        // trace
+        log.trace("{}", entity.toString());
+
         // debug
         log.debug("{}", entity.toString());
+
+        // info
+        // 需要自行实现toString
+        log.info("{}", entity.toString());
+        log.info("{}", entity);
 
         // warn
         try {
@@ -53,11 +74,6 @@ public class Slf4jLog4j2DemoApplication {
             log.warn("{}", e.getMessage());
             log.warn("", e);
         }
-
-        // info
-        // 需要自行实现toString
-        log.info("{}", entity.toString());
-        log.info("{}", entity);
 
         // error
         try {

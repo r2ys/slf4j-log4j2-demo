@@ -3,22 +3,18 @@
 </p>
 
 [![Build Status](http://img.shields.io/travis/SDWebImage/SDWebImage/master.svg?style=flat)](https://travis-ci.org/SDWebImage/SDWebImage)
-[![Pod Version](http://img.shields.io/cocoapods/v/SDWebImage.svg?style=flat)](http://cocoadocs.org/docsets/SDWebImage/)
-[![Pod Platform](http://img.shields.io/cocoapods/p/SDWebImage.svg?style=flat)](http://cocoadocs.org/docsets/SDWebImage/)
-[![Pod License](http://img.shields.io/cocoapods/l/SDWebImage.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0.html)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/SDWebImage/SDWebImage)
-[![codecov](https://codecov.io/gh/SDWebImage/SDWebImage/branch/master/graph/badge.svg)](https://codecov.io/gh/SDWebImage/SDWebImage)
+[![License](http://img.shields.io/cocoapods/l/SDWebImage.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 本示例提供slf4j+log4j2的使用示例和规范示范配置
 
 ## Requirements
 
 - IntelliJ IDEA 2017.2 or later
-- SpringBoot 2.1.4
+- SpringBoot 2.1.4.RELEASE
 
 #### Backwards compatibility
 
-- For SpringBoot 1.5.9
+- For SpringBoot 1.5.19.RELEASE
 
 ## Getting Started
 
@@ -49,7 +45,7 @@ All source code is licensed under the [MIT License](https://raw.github.com/SDWeb
 
 * run or debug : Slf4jLog4j2DemoApplication
 
-* import dependency
+* import dependency manually
 ```xml
 <!--slf4j-->
 <dependency>
@@ -63,6 +59,45 @@ All source code is licensed under the [MIT License](https://raw.github.com/SDWeb
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-log4j2</artifactId>
     <version>2.1.3.RELEASE</version>
+</dependency>
+```
+
+if not using spring boot starter, replace spring-boot-starter-log4j2 with log4j-api and log4j-core
+```java
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-core</artifactId>
+    <version>2.11.2</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-api</artifactId>
+    <version>2.11.2</version>
+</dependency>
+```
+
+don't forget to exclude dependency:spring-boot-starter-logging from spring-boot-starter when using spring-boot-starter or spring-boot-starter-web
+```xml
+<!--spring boot starter-->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter</artifactId>
+    <exclusions>
+        <exclusion>
+            <!-- 去除logback依赖 -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+```
+
+dependencies above has been integrated with an overall log4j-slf4j-impl
+```xml
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-slf4j-impl</artifactId>
+    <version>2.11.2</version>
 </dependency>
 ```
 
@@ -120,3 +155,19 @@ private static final Logger logger = LoggerFactory.getLogger(Slf4jLog4j2DemoAppl
 * log4j2 config , refer to log4j2.xml
 
 * or refer to log4j2.properties
+
+* setup log configure path at application.yml / application.properties
+```yaml
+logging:
+  config: classpath:log4j2.xml
+```
+
+* notice: if you are not using embedded tomcat or jetty container, modify log file location:
+```xml
+
+```
+
+* look up log from generated log file, such as logs/all.log、info.log、error.log in root directory
+
+
+* make sure log4j2.xml or log4j2.properties below root directory or config directory when deployed. Usually we extracted this config file from jar.
