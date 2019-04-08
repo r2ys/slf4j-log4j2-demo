@@ -171,4 +171,4 @@ if you are not using embedded tomcat or jetty container, modify log file locatio
 * look up log from generated log file, such as logs/all.log、info.log、error.log in root directory
 
 
-* make sure log4j2.xml or log4j2.properties below root directory or config directory when deployed. Usually we extracted this config file from jar.
+* make sure log4j2.xml below root directory or config directory when deployed. Usually we extracted this config file from jar.
