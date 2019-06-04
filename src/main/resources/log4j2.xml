@@ -91,7 +91,7 @@
         <!--过滤spring多余日志-->
         <!--<logger name="org.springframework" level="INFO"/>-->
         <!--配置具体某个包或类的日志级别-->
-        <!--<logger name="com.sunjinke.slf4jlog4j2demo" level="INFO"/>-->
+        <!--<logger name="com.r2ys.slf4jlog4j2demo" level="INFO"/>-->
         <Root level="INFO">
             <appender-ref ref="CONSOLE_LOG"/>
             <appender-ref ref="DEBUGLOG"/>

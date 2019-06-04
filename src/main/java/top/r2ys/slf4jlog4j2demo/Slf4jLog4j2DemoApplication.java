@@ -1,4 +1,4 @@
-package com.sunjinke.slf4jlog4j2demo;
+package top.r2ys.slf4jlog4j2demo;
 
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -50,8 +50,8 @@ public class Slf4jLog4j2DemoApplication {
         ExampleEntity entity = new ExampleEntity("0", "alpha");
 
         // 系统日志
-        System.out.println("[com.sunjinke.slf4jlog4j2demo.Slf4jLog4j2DemoApplication.testWithLombok(Slf4jLog4j2DemoApplication.java:45)]" + "sout->" + entity.toString());
-        System.err.println("[com.sunjinke.slf4jlog4j2demo.Slf4jLog4j2DemoApplication.testWithLombok(Slf4jLog4j2DemoApplication.java:46)]" + "serr->" + entity.toString());
+        System.out.println("[Slf4jLog4j2DemoApplication.testWithLombok(Slf4jLog4j2DemoApplication.java:45)]" + "sout->" + entity.toString());
+        System.err.println("[Slf4jLog4j2DemoApplication.testWithLombok(Slf4jLog4j2DemoApplication.java:46)]" + "serr->" + entity.toString());
 
         // 使用lombok->log打印日志
 

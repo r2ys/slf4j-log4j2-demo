@@ -41,11 +41,10 @@
 
 ## Who Uses It
 
-- workmates from sunjinke.
 
 ## Communication
 
-- If you **need help**, mail [hu](hudingwu@sunjinke.com).
+- If you **need help**, mail [hu](r2ys@outlook.com).
 - If you'd like to **ask a general question**, use [Github pull requests](https://github.com/r2ys/slf4j-log4j2-demo/pulls).
 
 ### Build Project
